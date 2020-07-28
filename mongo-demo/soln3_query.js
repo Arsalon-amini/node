@@ -36,4 +36,5 @@ async function run(){
     console.log(courses); 
 }
 
-run(); 
+//run(); 
+

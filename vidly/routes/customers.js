@@ -21,13 +21,13 @@ router.post('/', async(req, res) => {
     const { error } = validate(req.body); 
     if(error) return res.status(400).send(error.details[0].message); //if not valid, send error to client
 
-    let customer = new Customer({ 
+    const customer = new Customer({  //mongoose talks to mongodbDriver to create customer ID (before saving to database)
         name: req.body.name,
         phone: req.body.phone,
         isGold: req.body.isGold
      }); 
 
-    customer = await customer.save(); 
+    await customer.save(); 
 
     res.send(customer); //send new record back to client
 });

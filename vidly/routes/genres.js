@@ -1,24 +1,32 @@
-//Modules
+//const asyncMiddleware = require('../middleware/async'); replace implementation with npm express-errors
+const auth = require('../middleware/auth'); 
+const admin = require('../middleware/admin'); 
 const mongoose = require('mongoose'); //object has .connect method that returns a promise 
 const express = require('express'); 
 const router = express.Router(); //returns a router object we can add routes to, then export 
 const {Genre, validate} = require('../models/genre'); //object returns has two properties (Customer, validate)
 
-
 //GET
 router.get('/', async (req, res) => {
+    throw new Error('cannot find genres'); 
     const genres = await Genre.find().sort('name'); //mongoose async 
     res.send(genres); 
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id',async (req, res) => {
     let genre = await Genre.findById(req.params.id); //mongoose async code (returns promise)
     if(!genre) return res.status(404).send("genre not found"); 
     res.send(genre); 
 }); 
 
+//custom middleware for async express route (try/catch)
+// router.get('/', asyncMiddleware(async (req, res) => {
+//     const genres = await Genre.find().sort('name'); //mongoose async 
+//     res.send(genres); 
+// }));
+
 //POST 
-router.post('/', async(req, res) => {
+router.post('/', [auth, admin], async(req, res) => {
     const { error } = validate(req.body); 
     if(error) return res.status(400).send(error.details[0].message); //if not valid, send error to client
 
@@ -31,7 +39,7 @@ router.post('/', async(req, res) => {
 
 
 //PUT
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
     //validate 
     const { error } = validate(req.body); //validate method, access error field in returned obj
     if(error) return res.status(400).send(error.details[0].message); //error mssage
@@ -44,13 +52,11 @@ router.put('/:id', async (req, res) => {
 });
 
 //DELETE
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     const genre = await Genre.findByIdAndRemove(req.params.id); //mongoose abstracted function that uses promise to query MongoDB
     if(!genre) return res.status(404).send("genre not found"); //if not exist, return message to client
 
     res.send(genre); 
 });
-
-
 
 module.exports = router; 

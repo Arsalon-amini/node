@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth'); 
 const {Rental, validate} = require('../models/rental'); 
 const {Movie} = require('../models/movie'); //object returns has two properties (Customer, validate)
 const {Customer} = require('../models/customer'); 
@@ -16,7 +17,7 @@ router.get('/', async (req, res) =>{
 
 //POST
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const { error } = validate(req.body); 
     if(error) return res.status(400).send(error.details[0].message); 
 
@@ -43,6 +44,7 @@ router.post('/', async (req, res) => {
         }
     });
 
+    //transactions
     try{
         new Fawn.Task()
             .save('rentals', rental)

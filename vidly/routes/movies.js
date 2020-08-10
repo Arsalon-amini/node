@@ -1,4 +1,5 @@
-
+const auth = require('../middleware/auth'); 
+const admin = require('../middleware/admin');
 const {Movie, validate} = require('../models/movie'); //object returns has two properties (Customer, validate)
 const {Genre} = require('../models/genre');
 const mongoose = require('mongoose'); //object has .connect method that returns a promise 
@@ -21,7 +22,7 @@ router.get('/:id', async (req, res) => {
 }); 
 
 //POST 
-router.post('/', async(req, res) => {
+router.post('/', auth, admin, async(req, res) => {
     const { error } = validate(req.body); 
     if(error) return res.status(400).send(error.details[0].message); //if not valid, send error to client
 
@@ -45,7 +46,7 @@ router.post('/', async(req, res) => {
 
 
 //PUT
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, admin, async (req, res) => {
     //validate 
     const { error } = validate(req.body); //validate method, access error field in returned obj
     if(error) return res.status(400).send(error.details[0].message); //error mssage
@@ -68,7 +69,7 @@ router.put('/:id', async (req, res) => {
 });
 
 //DELETE
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     const movie = await Movie.findByIdAndRemove(req.params.id); //mongoose abstracted function that uses promise to query MongoDB
     if(!movie) return res.status(404).send("genre not found"); //if not exist, return message to client
 

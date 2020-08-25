@@ -1,6 +1,6 @@
 require('express-async-errors'); //npm module for async express routes error handling (loaded at startup)
 const winston = require('winston'); //default logger (can create custom logger)
-require('winston-mongodb'); //don't need to call it, just require
+//require('winston-mongodb'); //don't need to call it, just require
 
 module.exports = function(){
     winston.handleExceptions(
@@ -12,10 +12,10 @@ module.exports = function(){
     });
 
     winston.add(winston.transports.File, { filename: 'logfile.log' }); //log errors in file
-    winston.add(winston.transports.MongoDB, { 
-        db: 'mongodb://localhost/vidly', //in real world, might have separate db for logging errors 
-        level: 'info' 
-    });
+    // winston.add(winston.transports.MongoDB, { 
+    //     db: 'mongodb://localhost/vidly', //in real world, might have separate db for logging errors 
+    //     level: 'info' 
+    // });
 }
 
     //testing     

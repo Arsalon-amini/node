@@ -7,6 +7,7 @@ const movies = require('../routes/movies'); //movies API
 const rentals = require('../routes/rentals'); //Rental API
 const users = require('../routes/users'); //authentication API (user)
 const auth = require('../routes/auth'); //authorization API (permissions)
+const returns = require('../routes/returns'); //returns API 
 const error = require('../middleware/error'); //error handling middleware (centralized)
 
 
@@ -18,8 +19,6 @@ module.exports = function(app){
     app.use('/api/rentals', rentals); 
     app.use('/api/users', users); 
     app.use('/api/auth', auth); 
+    app.use('/api/returns', returns); 
     app.use(error);
-
-
-
 }

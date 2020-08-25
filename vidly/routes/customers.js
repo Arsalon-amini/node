@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     let customer = await Customer.findById(req.params.id); //mongoose async code (returns promise)
-    if(!customer) return res.status(404).send("genre not found"); 
+    if(!customer) return res.status(404).send("customer not found"); 
     res.send(customer); 
 }); 
 

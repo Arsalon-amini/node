@@ -4,7 +4,7 @@
   "description": "",
   "main": "vidly.js",
   "scripts": {
-    "test": "jest --watchAll --verbose --coverage"
+    "test": "jest --watchAll --verbose --coverage "
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
     "joi-password-complexity": "^4.2.0",
     "jsonwebtoken": "^8.5.1",
     "loadash": "^1.0.0",
+    "moment": "^2.27.0",
     "mongoose": "^5.9.26",
     "supertest": "^4.0.2",
     "winston": "^2.4.0",

@@ -15,18 +15,12 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', validateObjectId, async (req, res) => {
-    let genre = await Genre.findById(req.params.id); //first exec path 
+    let genre = await Genre.findOne({ 'genreId': req.params.id}); //first exec path 
 
     if(!genre) return res.status(404).send("genre not found"); //second exec path
 
     res.send(genre); 
 }); 
-
-//custom middleware for async express route (try/catch)
-// router.get('/', asyncMiddleware(async (req, res) => {
-//     const genres = await Genre.find().sort('name'); //mongoose async 
-//     res.send(genres); 
-// }));
 
 //POST 
 router.post('/', auth, async(req, res) => {

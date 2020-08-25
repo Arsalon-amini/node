@@ -9,7 +9,7 @@ require('./startup/config')(); //returns a function, call it
 require('./startup/validation')();
 
 //Dynamic PORT 
-const port = process.env.PORT || 3000; 
+const port = process.env.PORT || 3000; // 
 const server = app.listen(port, () => winston.info(`Listening on Port ${port}...`)); 
 
 module.exports = server; 
